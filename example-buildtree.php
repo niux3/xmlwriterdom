@@ -10,6 +10,7 @@
     $dom = [
         "os" => [
             'gnu_linux' => [
+                'arch?test=false' => '',
                 'debian?paying=false' => [
                     'lenny' => '2009',
                     'Squeeze' => '2011',
@@ -39,7 +40,8 @@
                             'eight' => '2001',
                         ]
                     ]
-                ]
+                ],
+                'redhat?test=false' => '',
             ],
             'windows?state=bad&virus=true&t=i+hate+this+one' => [
                 'version_9x' => [
