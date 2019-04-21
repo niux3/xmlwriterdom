@@ -2,7 +2,6 @@
     $files = array_filter(scandir('.'), function($item){
         return strstr($item, 'example');
     });
-
 ?>
 <!DOCTYPE html>
 <html lang="en">

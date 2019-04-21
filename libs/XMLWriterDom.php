@@ -67,7 +67,7 @@ class XMLWriterDom extends DomDocument{
         return $wrap;
     }
 
-    protected function typeNode($key, $value, $attributes)
+    protected function typeNode(string $key, $value, array $attributes)
     {
         if(is_array($value)){
             $node = $this->wrapBuildTree($value, $key, $attributes);
