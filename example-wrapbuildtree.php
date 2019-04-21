@@ -8,19 +8,39 @@
 
     $root = $xml->documentElement;
     $dom = [
-        'lorem?attr=une+valeur&autre-attr=encore+une+valeur' => 'une valeur',
-        'ipsum' => [
-            'sousipsux' => 'une autre valeur',
-            'blaor' => 'et une autre valeur',
-            'guylux?attr=une+valeur&autre-attr=encore+une+valeur' => [
-                'gnu' => 'et encore une valeur',
-                'linux' => 'encore une valeur',
-            ],
+        [
+            "title" => "Rear Window",
+            "director" => "Alfred Hitchcock",
+            "year" => '1954',
         ],
-        'indolore?attr=une+valeur&autre-attr=encore+une+valeur' => 'et une valeur',
-        'ores' => 'et une valeur',
+        [
+            "title" => "Full Metal Jacket",
+            "director" => "Stanley Kubrick",
+            "year" => '1987',
+            "actors" => [
+                'joker' => [
+                    'firstname' => 'Matthew',
+                    'lastname' => 'Modine'
+                ],
+                'cowboy' => [
+                    'firstname' => 'Arliss',
+                    'lastname' => 'Howard'
+                ],
+                'baleine' => [
+                    'firstname' => 'Vincent',
+                    'lastname' => "D'Onofrio"
+                ],
+            ]
+        ],
+        [
+            "title" => "Mean Streets",
+            "director" => "Martin Scorsese",
+            "year" => '1973'
+        ],
     ];
-    $nodes = $xml->wrapBuildTree($dom, 'wrap');
-    $root->appendChild($nodes);
+    foreach($dom as $key => $value){
+        $node = $xml->wrapBuildTree($value,'movie');
+        $root->appendChild($node);
+    }
     echo $xml->saveXML();
 ?>

@@ -8,17 +8,56 @@
 
     $root = $xml->documentElement;
     $dom = [
-        'lorem?attr=une+valeur&autre-attr=encore+une+valeur' => 'une valeur',
-        'ipsum' => [
-            'sousipsux' => 'une autre valeur',
-            'blaor' => 'et une autre valeur',
-            'guylux?attr=une+valeur&autre-attr=encore+une+valeur' => [
-                'gnu' => 'et encore une valeur',
-                'linux' => 'encore une valeur',
+        "os" => [
+            'gnu_linux' => [
+                'debian?paying=false' => [
+                    'lenny' => '2009',
+                    'Squeeze' => '2011',
+                    'Wheezy' => '2013',
+                    'Jessie' => '2015',
+                    'Stretch' => '2017',
+                    'fork' => [
+                        'ubuntu' => [
+                            'HardyHeron' => '2008',
+                            'lucidlynx?best=true' => '2010',
+                            'PrecisePangolin' => '2012',
+                            'fork' => [
+                                'elementary_os' => [
+                                    'Luna' => '2013',
+                                    'Loki' => '2015',
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                'slakware' => [
+                    'thirteen' => '2009',
+                    'fourteen' => '2012',
+                    'fork' => [
+                        'suse?best=true&t=i+love+you' => [
+                            'six' => '2000',
+                            'eight' => '2001',
+                        ]
+                    ]
+                ]
             ],
-        ],
-        'indolore?attr=une+valeur&autre-attr=encore+une+valeur' => 'et une valeur',
-        'ores' => 'et une valeur',
+            'windows?state=bad&virus=true&t=i+hate+this+one' => [
+                'version_9x' => [
+                    'ninetyfive' => '1995',
+                    'ninetyeight' => '1998',
+                    'ninetyeightse' => '1998',
+                ],
+                'nt' => [
+                    'nt97' => '1997',
+                    'nt4' => '2000',
+                    'xp' => '2001',
+                    'vista' => '2007',
+                    'seven' => '2009',
+                    'eight' => '2009',
+                    'ten' => '2014',
+                ]
+            ]
+        ]
     ];
     $xml->buildTree($root, $dom);
     echo $xml->saveXML();
