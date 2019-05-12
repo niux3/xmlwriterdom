@@ -1,12 +1,17 @@
 <?php
-class XMLWriterDom extends DomDocument{
+
+class XMLWriterDom extends \DomDocument{
+
+    protected $XMLSource = null;
+    protected $XMLDestination = null;
+    protected $root = null;
+
     public function __construct()
     {
         parent::__construct();
     }
 
-    public function createSimpleElement(string $el, $txt = "", $attributes = [])
-    {
+    public function createSimpleElement($el, $txt = "", $attributes = []){
         $node = $this->createElement($el);
         $this->writeAttributes($node, $attributes);
 
@@ -19,8 +24,7 @@ class XMLWriterDom extends DomDocument{
     }
 
 
-    public function wrapBuildTree(array $data, string $txtElementWrapper, $attributes = [])
-    {
+    public function wrapBuildTree($data, $txtElementWrapper, $attributes = []){
         $wrap = $this->createElement($txtElementWrapper);
         $this->writeAttributes($wrap, $attributes);
 
@@ -38,8 +42,7 @@ class XMLWriterDom extends DomDocument{
         return $wrap;
     }
 
-    public function buildTree(object $root, array $data, $attributes = [])
-    {
+    public function buildTree($root, $data, $attributes = []){
         foreach ($data as $key => $value) {
             $attributes = [];
             if(strstr($key, '?')){
@@ -56,8 +59,7 @@ class XMLWriterDom extends DomDocument{
         }
     }
 
-    protected function writeAttributes(object $wrap, array $attributes)
-    {
+    protected function writeAttributes($wrap, $attributes){
         if(!empty($attributes)){
             foreach ($attributes as $attrKey => $attrValue) {
                 $wrap->setAttribute($attrKey, $attrValue);
@@ -67,8 +69,7 @@ class XMLWriterDom extends DomDocument{
         return $wrap;
     }
 
-    protected function typeNode(string $key, $value, array $attributes)
-    {
+    protected function typeNode($key, $value, $attributes){
         if(is_array($value)){
             $node = $this->wrapBuildTree($value, $key, $attributes);
         }
@@ -79,5 +80,73 @@ class XMLWriterDom extends DomDocument{
 
         return $node;
     }
+
+    /**
+     * display xml
+     * @return string [xml state]
+     */
+    public function display(){
+        return $this->saveXML();
+    }
+
+    /**
+     * write xml file
+     * @param string $path
+     * @return void
+     */
+    public function save(){
+        $path = !is_null($this->XMLDestination)? $this->XMLDestination : $this->XMLSource;
+        $this->save($path);
+    }
+
+    /**
+     * where is xml file
+     * @param string $value
+     * @return $this
+     */
+    public function setXMLSource($value){
+        if(!is_string($value)){
+            throw new \Exception(sprintf("this args (%s) must be a string", $value));
+        }
+        $this->XMLSource = $value;
+        $this->getXML();
+
+        return $this;
+    }
+
+    /**
+     * where does put xml file
+     * @param string $value
+     * @return $this
+     */
+    public function setXMLDestination($value){
+        if(!is_string($value)){
+            throw new \Exception(sprintf("this args (%s) must be a string", $value));
+        }
+        $this->XMLDestination = $value;
+
+        return $this;
+    }
+
+    public function getRoot(){
+        return $this->root;
+    }
+
+    /**
+     * search xml file and set attribute root
+     * @return $this
+     */
+    protected function getXML(){
+        if(strstr($this->XMLSource, 'http') && !strstr(get_headers($this->XMLSource)[0], '200')){
+            throw new \Exception(sprintf("%s isn't found", $this->XMLSource));
+        }else if(!file_get_contents($this->XMLSource)){
+            throw new \Exception(sprintf("%s doesn't exist", $this->XMLSource));
+        }
+        $this->load($this->XMLSource);
+        $this->root = $this->documentElement;
+
+        return $this;
+    }
+
 }
 ?>
