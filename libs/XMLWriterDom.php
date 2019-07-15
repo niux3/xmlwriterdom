@@ -94,11 +94,11 @@ class XMLWriterDom extends \DomDocument{
      * @param string $path
      * @return void
      */
-    public function save(){
-        $path = !is_null($this->XMLDestination)? $this->XMLDestination : $this->XMLSource;
-        $this->save($path);
+    public function save($path = null, $option = 0){
+        $path = !is_null($this->XMLDestination)? $this->XMLDestination : $path;
+        $this->save($path, $options);
     }
-
+    
     /**
      * where is xml file
      * @param string $value

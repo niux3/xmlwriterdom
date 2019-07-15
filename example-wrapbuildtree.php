@@ -42,5 +42,5 @@
         $node = $xml->wrapBuildTree($value,'movie');
         $root->appendChild($node);
     }
-    echo $xml->saveXML();
+    echo $xml->display();
 ?>
